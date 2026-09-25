@@ -1,11 +1,15 @@
 const userRoutes=require("./src/routes/userRoutes");
 const express=require("express");
 const db=require("./src/config/db");
-
+require("dotenv").config()
 const app=express();
+
+
 app.use(express.json());
 app.use("/api/users",userRoutes);
-const PORT=5000;
+
+
+const PORT=process.env.PORT;
 async function startServer(){
     try{
         const connection=await db.promise().getConnection();
