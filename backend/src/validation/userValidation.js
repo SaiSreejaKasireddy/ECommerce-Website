@@ -21,6 +21,29 @@ function ValidateUser(userData){
     }
     return null;
 }
+
+
+
+//put method
+function validateUserUpdate(userData){
+    const {
+        first_name,
+        last_name,
+        email,
+        phone
+    }=userData;
+    if(!first_name || !last_name ||!email){
+        return "First name,last name and email are required";
+    }
+    if(!email.includes("@")){
+        return "Invalid email address";
+    }
+    if(phone && !/^\d{10}$/.test(phone)){
+        return "Phone number must contain exactly 10 digits";
+    }
+    return null;
+}
 module.exports={
-    ValidateUser
+    ValidateUser,
+    validateUserUpdate
 }

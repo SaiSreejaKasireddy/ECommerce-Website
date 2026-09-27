@@ -42,10 +42,31 @@ async function createUser(userData){
 }
 
 
+//put method
+async function updateUser(id,userData){
+    const {
+        first_name,
+        last_name,
+        email,
+        phone
+    }=userData;
+    const [result]=await con.promise().query(
+        `UPDATE users 
+        SET first_name=?,
+        last_name=?,
+        email=?,
+        phone=?
+        WHERE id=?`,
+        [first_name,last_name,email,phone,id]
+    );
+    return result;
+}
+
 
 module.exports={
     getAllUsers,
     getUserById,
     getUserByEmail,
-    createUser
+    createUser,
+    updateUser
 };

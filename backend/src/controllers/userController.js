@@ -1,4 +1,4 @@
-const {fetchAllUsers,fetchUserById,fetchUserByEmail,addUser} = require("../services/userService");
+const {fetchAllUsers,fetchUserById,fetchUserByEmail,addUser,editUser} = require("../services/userService");
 
 
 async function getUsers(req,res){
@@ -91,10 +91,37 @@ async function createUser(req,res){
 }
 
 
+//put method
+async function updateUser(req,res){
+    try{
+        const result=await editUser(req.params.id,req.body);
+        res.status(200).json({
+            success:true,
+            message:"User updated successfully",
+            affectedRows:result.affectedRows
+        });
+    }
+    catch(error){
+        console.error(error);
+        if(error.statusCode){
+            return res.status(error.statusCode).json({
+                success:false,
+                message:error.message
+            });
+        }
+        res.status(500).json({
+            success:false,
+            message:"Failed to update user"
+        });
+    }
+}
+
+
 
 module.exports={
     getUsers,
     getUserById,
     getUserByEmail,
-    createUser
+    createUser,
+    updateUser
 };
