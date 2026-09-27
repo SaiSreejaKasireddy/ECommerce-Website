@@ -14,10 +14,17 @@ async function getUserById(id){
     );
     return rows[0];
 }
-
+async function getUserByEmail(email){
+    const [rows]=await con.promise().query(
+        "SELECT * FROM users WHERE email =?",
+        [email]
+    );
+    return rows[0];
+}
 // insert values(), update table set parameter where condition , delete table where condition
 
 module.exports={
     getAllUsers,
-    getUserById
+    getUserById,
+    getUserByEmail
 };

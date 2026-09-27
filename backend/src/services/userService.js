@@ -1,4 +1,4 @@
-const { getAllUsers,getUserById } =require("../models/userModel");
+const { getAllUsers,getUserById,getUserByEmail } =require("../models/userModel");
 
 
 async function fetchAllUsers(){
@@ -10,10 +10,15 @@ async function fetchUserById(id){
     return user;
 }
 
+async function fetchUserByEmail(email){
+    const user=await getUserByEmail(email);
+    return user;
+}
 // postuser updateuser deleteuser
 
 module.exports={
     fetchAllUsers,
-    fetchUserById
+    fetchUserById,
+    fetchUserByEmail
 
 };

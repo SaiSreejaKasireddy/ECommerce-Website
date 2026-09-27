@@ -1,4 +1,4 @@
-const {fetchAllUsers,fetchUserById} = require("../services/userService");
+const {fetchAllUsers,fetchUserById,fetchUserByEmail} = require("../services/userService");
 
 
 async function getUsers(req,res){
@@ -40,6 +40,28 @@ async function getUserById(req,res){
     }
 }
 
+async function getUserByEmail(req,res){
+    try{
+        const user=await fetchUserByEmail(req.params.email);
+        if(!user){
+            return res.status(404).json({
+                success:false,
+                message:"User not found"
+            });
+        }
+        res.status(200).json({
+            success:true,
+            data:user
+        });
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({
+            success:false,
+            message:"Failed to fetch user"
+        });
+    }
+}
 // postuser , updateuser , deleteuser
 
 
@@ -48,5 +70,6 @@ async function getUserById(req,res){
 
 module.exports={
     getUsers,
-    getUserById
+    getUserById,
+    getUserByEmail
 };
