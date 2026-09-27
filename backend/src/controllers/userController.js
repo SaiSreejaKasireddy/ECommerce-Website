@@ -1,9 +1,10 @@
-const {fetchAllUsers,fetchUserById,fetchUserByEmail} = require("../services/userService");
+const {fetchAllUsers,fetchUserById,fetchUserByEmail,addUser} = require("../services/userService");
 
 
 async function getUsers(req,res){
     try{
         const users=await fetchAllUsers();
+        // console.log(users)
         res.status(200).json({
             success:true,
             data:users
@@ -64,12 +65,36 @@ async function getUserByEmail(req,res){
 }
 // postuser , updateuser , deleteuser
 
+async function createUser(req,res){
+    try{
+        const userId=await addUser(req.body);
+        res.status(201).json({
+            success:true,
+            message:"User  created successfully",
+            userId:userId
+        });
 
+    }
+    catch(error){
+        console.error(error);
+        if (error.statusCode) {
+        return res.status(error.statusCode).json({
+            success: false,
+            message: error.message
+        });
+    }
+        res.status(500).json({
+            success:false,
+            message:"Failed to create user"
+        })
+    }
+}
 
 
 
 module.exports={
     getUsers,
     getUserById,
-    getUserByEmail
+    getUserByEmail,
+    createUser
 };

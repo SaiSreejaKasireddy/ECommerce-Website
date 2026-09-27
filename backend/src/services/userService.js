@@ -1,5 +1,6 @@
-const { getAllUsers,getUserById,getUserByEmail } =require("../models/userModel");
-
+const bcrypt = require("bcrypt");
+const { getAllUsers,getUserById,getUserByEmail,createUser } =require("../Models/userModel");
+const {ValidateUser}=require("../Validation/userValidation");
 
 async function fetchAllUsers(){
     const users=await getAllUsers();
@@ -16,9 +17,39 @@ async function fetchUserByEmail(email){
 }
 // postuser updateuser deleteuser
 
+
+
+async function addUser(userData) {
+    const validationError = ValidateUser(userData);
+
+    if (validationError) {
+        throw new Error(validationError);
+    }
+    const existingUser = await getUserByEmail(userData.email);
+
+    if (existingUser) {
+        const error = new Error("Email already registered");
+        error.statusCode = 409;
+        throw error;
+    }
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+    const userWithHashedPassword = {
+        ...userData,
+        password: hashedPassword
+    };
+
+    const userId = await createUser(userWithHashedPassword);
+
+    return userId;
+}
+
+
+
 module.exports={
     fetchAllUsers,
     fetchUserById,
-    fetchUserByEmail
+    fetchUserByEmail,
+    addUser
 
 };

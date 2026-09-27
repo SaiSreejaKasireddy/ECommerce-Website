@@ -23,8 +23,29 @@ async function getUserByEmail(email){
 }
 // insert values(), update table set parameter where condition , delete table where condition
 
+
+//user by post
+async function createUser(userData){
+    const {
+        first_name,
+        last_name,
+        email,
+        password,
+        phone
+    }=userData;
+    const [result]=await con.promise().query(
+        `INSERT INTO users (first_name,last_name,email,password,phone)
+        VALUES(?,?,?,?,?)`,
+        [first_name,last_name,email,password,phone]
+    );
+    return result.insertId;
+}
+
+
+
 module.exports={
     getAllUsers,
     getUserById,
-    getUserByEmail
+    getUserByEmail,
+    createUser
 };
