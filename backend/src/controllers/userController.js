@@ -1,4 +1,4 @@
-const {fetchAllUsers,fetchUserById,fetchUserByEmail,addUser,editUser} = require("../services/userService");
+const {fetchAllUsers,fetchUserById,fetchUserByEmail,addUser,editUser,removeUser} = require("../services/userService");
 
 
 async function getUsers(req,res){
@@ -116,6 +116,30 @@ async function updateUser(req,res){
     }
 }
 
+//delete
+async function deleteUser(req,res){
+    try{
+         const result=await removeUser(req.params.id);
+         res.status(200).json({
+            success:true,
+            message:"deleted successfully",
+            affectedRows:result.affectedRows
+         });
+    }
+    catch(error){
+        console.error(error);
+        if(error.statusCode){
+            return res.status(error.statusCode).json({
+                success:false,
+                message:error.message
+            });
+        }
+        res.status(500).json({
+            success:false,
+            message:"Failed to delete user"
+        });
+    }
+}
 
 
 module.exports={
@@ -123,5 +147,6 @@ module.exports={
     getUserById,
     getUserByEmail,
     createUser,
-    updateUser
+    updateUser,
+    deleteUser
 };

@@ -62,11 +62,20 @@ async function updateUser(id,userData){
     return result;
 }
 
+//delete
+async function deleteUser(id){
+    const [result]=await con.promise().query(
+        `DELETE FROM users WHERE id=?`,
+        [id]
+    )
+return result;
+}
 
 module.exports={
     getAllUsers,
     getUserById,
     getUserByEmail,
     createUser,
-    updateUser
+    updateUser,
+    deleteUser
 };

@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { getAllUsers,getUserById,getUserByEmail,createUser,updateUser } =require("../Models/userModel");
+const { getAllUsers,getUserById,getUserByEmail,createUser,updateUser,deleteUser } =require("../Models/userModel");
 const {ValidateUser}=require("../Validation/userValidation");
 
 async function fetchAllUsers(){
@@ -69,12 +69,24 @@ async function editUser(id,userData){
     return result;
 }
 
+//delete
+async function removeUser(id){
+    const existingUser =await getUserById(id);
+    if(!existingUser){
+        const error=new Error("User not found ");
+        error.statusCode=400;
+        throw error;
+    }
+    const result=await deleteUser(id);
+    return result;
+}
 
 module.exports={
     fetchAllUsers,
     fetchUserById,
     fetchUserByEmail,
     addUser,
-    editUser
+    editUser,
+    removeUser
 
 };
