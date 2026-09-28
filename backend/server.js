@@ -1,4 +1,5 @@
 const userRoutes=require("./src/routes/userRoutes");
+const categoryRoutes=require("./src/routes/categoryRoutes");
 const express=require("express");
 const db=require("./src/config/db");
 require("dotenv").config()
@@ -7,6 +8,7 @@ const app=express();
 
 app.use(express.json());
 app.use("/api/users",userRoutes);
+app.use("/api/categories",categoryRoutes);
 
 
 const PORT=process.env.PORT;

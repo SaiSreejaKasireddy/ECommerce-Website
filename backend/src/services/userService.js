@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { getAllUsers,getUserById,getUserByEmail,createUser,updateUser,deleteUser } =require("../Models/userModel");
+const { getAllUsers,getUserById,getUserByEmail,createUser,updateUser,deleteUser } =require("../models/userModel");
 const {ValidateUser}=require("../Validation/userValidation");
 
 async function fetchAllUsers(){
