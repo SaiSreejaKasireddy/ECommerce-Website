@@ -29,10 +29,24 @@ const [result]=await con.promise().query(
 );
 return result.insertId;
 }
+
+//put
+
+
+async function updateCategory(id,CategoryData){
+    const {name,description}=CategoryData;
+    const [result]=await con.promise().query(
+        `UPDATE categories SET name=?,
+        description=?
+        WHERE id=?`,
+        [name,description,id]
+    );
+    return result;
+}
 module.exports={
     getAllCategories,
     createCategory,
-    getCategoryByName
+    getCategoryByName,updateCategory
 };
 
 

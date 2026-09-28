@@ -1,4 +1,4 @@
-const {fetchAllCategories,addCategory}=require("../services/categoryService");
+const {fetchAllCategories,addCategory,editCategory}=require("../services/categoryService");
 async function getCategories(req,res){
     try{
         const categories=await fetchAllCategories();
@@ -18,7 +18,7 @@ async function getCategories(req,res){
 
 
 
-//put
+//post
 
 async function createCategory(req,res){
     try{
@@ -43,7 +43,45 @@ async function createCategory(req,res){
         });
     }
 }
+
+
+
+//put
+
+async function updateCategory(req,res){
+    try{
+        const categoryId=req.params.id;
+        const result=await editCategory(
+            categoryId,
+            req.body
+        );
+        res.status(200).json({
+            success:true,
+            message:"Category updated successfully"
+        });
+    }
+    catch(error){
+        console.error(error);
+        if(error.statusCode){
+            return res.status(error.statusCode).json({
+                success:false,
+                message:error.message
+            });
+
+        }
+        res.status(500).json({
+            success:false,
+            message:"Failed to update category"
+        });
+    }
+}
+
+
+
+
+
 module.exports={
     getCategories,
-    createCategory
+    createCategory,
+    updateCategory
 };
