@@ -11,6 +11,7 @@ app.use("/api/users",userRoutes);
 app.use("/api/categories",categoryRoutes);
 
 
+
 const PORT=process.env.PORT;
 async function startServer(){
     try{
