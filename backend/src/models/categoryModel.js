@@ -43,10 +43,26 @@ async function updateCategory(id,CategoryData){
     );
     return result;
 }
+
+
+
+
+
+//delete
+
+async function deleteCategory(id){
+    const [result]=await con.promise().query(
+        "DELETE FROM categories WHERE id=?",
+        [id]
+    );
+    return result;
+}
 module.exports={
     getAllCategories,
     createCategory,
-    getCategoryByName,updateCategory
+    getCategoryByName,
+    updateCategory,
+    deleteCategory
 };
 
 

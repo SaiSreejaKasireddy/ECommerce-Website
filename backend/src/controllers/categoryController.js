@@ -1,4 +1,4 @@
-const {fetchAllCategories,addCategory,editCategory}=require("../services/categoryService");
+const {fetchAllCategories,addCategory,editCategory,removeCategory}=require("../services/categoryService");
 async function getCategories(req,res){
     try{
         const categories=await fetchAllCategories();
@@ -75,7 +75,32 @@ async function updateCategory(req,res){
         });
     }
 }
+//delete
 
+
+async function deleteCategory(req,res){
+    try{
+        const categoryId=req.params.id;
+        await removeCategory(categoryId);
+        res.status(200).json({
+            success:true,
+            message:"Category deleted successfully"
+        });
+    }
+    catch(error){
+        console.error(error);
+        if(error.statusCode){
+            return res.status(error.statusCode).json({
+                success: false,
+                message:error.message
+            });
+        }
+        res.status(500).json({
+            success:false,
+            message:"Failed to delete category"
+        });
+    }
+}
 
 
 
@@ -83,5 +108,6 @@ async function updateCategory(req,res){
 module.exports={
     getCategories,
     createCategory,
-    updateCategory
+    updateCategory,
+    deleteCategory
 };

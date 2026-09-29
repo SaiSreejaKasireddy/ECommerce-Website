@@ -1,4 +1,4 @@
-const { getAllCategories,getCategoryByName,createCategory,updateCategory}=require("../models/categoryModel");
+const { getAllCategories,getCategoryByName,createCategory,updateCategory,deleteCategory}=require("../models/categoryModel");
 async function fetchAllCategories(){
     const categories=await getAllCategories();
     return categories;
@@ -56,8 +56,26 @@ async function editCategory(id,categoryData){
 
 
 
+//delete
+
+async function removeCategory(id){
+    const categories=await getAllCategories();
+    const category=categories.find(
+        category=>category.id ===Number(id)
+    );
+    if(!category){
+        const error=new Error("Category not found");
+        error.statusCode=404;
+        throw error;
+    }
+    const result =await deleteCategory(id);
+    return result;
+}
+
+
 module.exports={
     fetchAllCategories,
     addCategory,
-    editCategory
+    editCategory,
+    removeCategory
 };
