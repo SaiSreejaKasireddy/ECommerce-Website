@@ -1,3 +1,4 @@
+const errorHandler=require("./src/middleware/errorMiddleware");
 const userRoutes=require("./src/routes/userRoutes");
 const categoryRoutes=require("./src/routes/categoryRoutes");
 const express=require("express");
@@ -32,5 +33,5 @@ app.get("/api/health", (req, res) => {
         message: "E-Commerce API is running"
     });
 });
-
+app.use(errorHandler);
 startServer();

@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
-const { getAllUsers,getUserById,getUserByEmail,createUser,updateUser,deleteUser } =require("../models/userModel");
-const {ValidateUser}=require("../Validation/userValidation");
+const { getAllUsers,getUserById,getUserByEmail,getUserByEmailSafe,createUser,updateUser,deleteUser } =require("../models/userModel");
+const {validateUser,validateUserUpdate}=require("../Validation/userValidation");
 
 async function fetchAllUsers(){
     const users=await getAllUsers();
@@ -12,7 +12,7 @@ async function fetchUserById(id){
 }
 
 async function fetchUserByEmail(email){
-    const user=await getUserByEmail(email);
+    const user=await getUserByEmailSafe(email);
     return user;
 }
 // postuser updateuser deleteuser
@@ -20,7 +20,7 @@ async function fetchUserByEmail(email){
 
 
 async function addUser(userData) {
-    const validationError = ValidateUser(userData);
+    const validationError = validateUser(userData);
 
     if (validationError) {
         throw new Error(validationError);
@@ -47,10 +47,10 @@ async function addUser(userData) {
 
 //put method updation
 async function editUser(id,userData){
-    const validationError=ValidateUser(userData);
+    const validationError=validateUserUpdate(userData);
     if(validationError){
         const error=new Error(validationError);
-        error.statuscode=400;
+        error.statusCode=400;
         throw error;
     }
     const existingUser=await getUserById(id);
@@ -74,7 +74,7 @@ async function removeUser(id){
     const existingUser =await getUserById(id);
     if(!existingUser){
         const error=new Error("User not found ");
-        error.statusCode=400;
+        error.statusCode=404;
         throw error;
     }
     const result=await deleteUser(id);

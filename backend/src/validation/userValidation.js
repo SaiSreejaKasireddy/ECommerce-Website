@@ -1,4 +1,4 @@
-function ValidateUser(userData){
+function validateUser(userData){
     const {
         first_name,
         last_name,
@@ -44,6 +44,6 @@ function validateUserUpdate(userData){
     return null;
 }
 module.exports={
-    ValidateUser,
+    validateUser,
     validateUserUpdate
 }

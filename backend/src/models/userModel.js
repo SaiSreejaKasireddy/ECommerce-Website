@@ -3,13 +3,16 @@ const con=require("../config/db");
 
 async function getAllUsers(){
     const [rows]=await con.promise().query(
-        "SELECT * FROM users"
+       `SELECT id, first_name, last_name, email, phone, role, status, created_at, updated_at
+ FROM users`
     );
     return rows;
 }
 async function getUserById(id){
     const [rows]=await con.promise().query(
-        "SELECT * FROM users WHERE id =?",
+        `SELECT id, first_name, last_name, email, phone, role, status, created_at, updated_at
+         FROM users
+         WHERE id = ?`,
         [id]
     );
     return rows[0];
@@ -18,6 +21,16 @@ async function getUserByEmail(email){
     const [rows]=await con.promise().query(
         "SELECT * FROM users WHERE email =?",
         [email]
+    );
+    return rows[0];
+}
+
+async function getUserByEmailSafe(email){
+    const [rows]=await con.promise().query(
+        `SELECT id, first_name, last_name, email, phone, role, status, created_at, updated_at
+         FROM users
+         WHERE email = ?`,
+         [email]
     );
     return rows[0];
 }
@@ -75,6 +88,7 @@ module.exports={
     getAllUsers,
     getUserById,
     getUserByEmail,
+    getUserByEmailSafe,
     createUser,
     updateUser,
     deleteUser
