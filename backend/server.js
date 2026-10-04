@@ -1,37 +1,24 @@
-const errorHandler=require("./src/middleware/errorMiddleware");
-const userRoutes=require("./src/routes/userRoutes");
-const categoryRoutes=require("./src/routes/categoryRoutes");
-const express=require("express");
-const db=require("./src/config/db");
-require("dotenv").config()
-const app=express();
+const app = require("./app");
+const db = require("./src/config/db");
+require("dotenv").config();
 
+const PORT = process.env.PORT;
 
-app.use(express.json());
-app.use("/api/users",userRoutes);
-app.use("/api/categories",categoryRoutes);
+async function startServer() {
+    try {
+        const connection = await db.promise().getConnection();
 
-
-
-const PORT=process.env.PORT;
-async function startServer(){
-    try{
-        const connection=await db.promise().getConnection();
         console.log("MySQL connected successfully");
+
         connection.release();
-        app.listen(PORT,()=>{
+
+        app.listen(PORT, () => {
             console.log(`Server running on http://localhost:${PORT}`);
         });
     }
-    catch(error){
-        console.error("MySql connection failed:",error.message);
+    catch (error) {
+        console.error("MySql connection failed:", error.message);
     }
 }
-app.get("/api/health", (req, res) => {
-    res.json({
-        success: true,
-        message: "E-Commerce API is running"
-    });
-});
-app.use(errorHandler);
+
 startServer();

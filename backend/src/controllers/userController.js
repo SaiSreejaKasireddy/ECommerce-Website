@@ -98,8 +98,7 @@ async function createUser(req,res,next){
 //put method
 async function updateUser(req,res,next){
     try{
-        console.log("UPDATE USER ID:", req.params.id);
-        console.log("UPDATE USER BODY:", req.body);
+      
         const result=await editUser(req.params.id,req.body);
         res.status(200).json({
             success:true,

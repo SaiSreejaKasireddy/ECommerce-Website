@@ -23,8 +23,10 @@ async function addUser(userData) {
     const validationError = validateUser(userData);
 
     if (validationError) {
-        throw new Error(validationError);
-    }
+    const error = new Error(validationError);
+    error.statusCode = 400;
+    throw error;
+}
     const existingUser = await getUserByEmail(userData.email);
 
     if (existingUser) {
@@ -43,6 +45,7 @@ async function addUser(userData) {
 
     return userId;
 }
+
 
 
 //put method updation
@@ -73,7 +76,7 @@ async function editUser(id,userData){
 async function removeUser(id){
     const existingUser =await getUserById(id);
     if(!existingUser){
-        const error=new Error("User not found ");
+        const error=new Error("User not found");
         error.statusCode=404;
         throw error;
     }
