@@ -1,5 +1,5 @@
 const {fetchAllCategories,addCategory,editCategory,removeCategory}=require("../services/categoryService");
-async function getCategories(req,res){
+async function getCategories(req,res,next){
     try{
         const categories=await fetchAllCategories();
         res.status(200).json({
@@ -8,11 +8,12 @@ async function getCategories(req,res){
         });
     }
     catch(error){
-        console.error(error);
+      /*  console.error(error);
         res.status(500).json({
             success:false,
             message:"Failed to fetch categories"
-        });
+        });*/
+        next(error);
     }
 }
 
@@ -20,7 +21,7 @@ async function getCategories(req,res){
 
 //post
 
-async function createCategory(req,res){
+async function createCategory(req,res,next){
     try{
         const categoryId=await addCategory(req.body);
         res.status(201).json({
@@ -30,7 +31,7 @@ async function createCategory(req,res){
         });
     }
     catch(error){
-        console.error(error);
+       /* console.error(error);
         if(error.statusCode){
             return res.status(error.statusCode).json({
                 success:false,
@@ -40,7 +41,8 @@ async function createCategory(req,res){
         res.status(500).json({
             success:false,
             message:error.message
-        });
+        });*/
+        next(error);
     }
 }
 
@@ -48,7 +50,7 @@ async function createCategory(req,res){
 
 //put
 
-async function updateCategory(req,res){
+async function updateCategory(req,res,next){
     try{
         const categoryId=req.params.id;
         const result=await editCategory(
@@ -61,7 +63,7 @@ async function updateCategory(req,res){
         });
     }
     catch(error){
-        console.error(error);
+       /* console.error(error);
         if(error.statusCode){
             return res.status(error.statusCode).json({
                 success:false,
@@ -72,13 +74,14 @@ async function updateCategory(req,res){
         res.status(500).json({
             success:false,
             message:"Failed to update category"
-        });
+        });*/
+        next(error);
     }
 }
 //delete
 
 
-async function deleteCategory(req,res){
+async function deleteCategory(req,res,next){
     try{
         const categoryId=req.params.id;
         await removeCategory(categoryId);
@@ -88,7 +91,7 @@ async function deleteCategory(req,res){
         });
     }
     catch(error){
-        console.error(error);
+       /* console.error(error);
         if(error.statusCode){
             return res.status(error.statusCode).json({
                 success: false,
@@ -98,7 +101,8 @@ async function deleteCategory(req,res){
         res.status(500).json({
             success:false,
             message:"Failed to delete category"
-        });
+        });*/
+        next(error);
     }
 }
 
